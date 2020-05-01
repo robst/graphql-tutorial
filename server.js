@@ -1,16 +1,10 @@
 'use strict'
 
 const { ApolloServer, gql } = require("apollo-server")
-const port = process.env.PORT || 8080
+const fs = require('fs');
 
-const accounts = [
-  {
-    "name": "Muster"
-  },
-  {
-    "name": "test"
-  }
-]
+const port = process.env.PORT || 8080
+const accounts = JSON.parse(fs.readFileSync('src/db/accounts.json', 'utf8'));
 
 const typeDefs = gql`
 type Query {
