@@ -1,39 +1,9 @@
 'use strict'
 
-const { ApolloServer, gql } = require("apollo-server")
-const fs = require('fs');
-
+const { ApolloServer } = require("apollo-server")
 const port = process.env.PORT || 8080
-const accounts = JSON.parse(fs.readFileSync('src/db/accounts.json', 'utf8'));
-
-const typeDefs = gql`
-type Query {
-  listAccounts: [Account!]!
-  findAccountById(id: Int): Account
-  findAccountsByName(searchphrase: String): [Account]!
-}
-
-type Account {
-  name: String!
-}
-
-`
-
-const resolvers = {
-  Query: {
-    listAccounts() {
-      return accounts
-    },
-    findAccountById(_, args) {
-      const { id } = args
-      return accounts.filter(account => account.id === id)[0]
-    },
-    findAccountsByName(_, args) {
-      const { searchphrase } = args
-      return accounts.filter(account => RegExp(searchphrase).test(account.name))
-    },
-  }
-}
+const resolvers = require("./src/resolvers")
+const typeDefs = require("./src/definitions")
 
 const server = new ApolloServer({
   typeDefs,
