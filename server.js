@@ -8,7 +8,6 @@ const accounts = JSON.parse(fs.readFileSync('src/db/accounts.json', 'utf8'));
 
 const typeDefs = gql`
 type Query {
-  helloWorld: String
   listAccounts: [Account!]!
   findAccountById(id: Int): Account
 }
@@ -21,9 +20,6 @@ type Account {
 
 const resolvers = {
   Query: {
-    helloWorld() {
-      return 'hello world'
-    },
     listAccounts() {
       return accounts
     },
