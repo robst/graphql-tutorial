@@ -10,6 +10,7 @@ const typeDefs = gql`
 type Query {
   helloWorld: String
   listAccounts: [Account!]!
+  findAccountById(id: Int): Account
 }
 
 type Account {
@@ -25,6 +26,10 @@ const resolvers = {
     },
     listAccounts() {
       return accounts
+    },
+    findAccountById(_, args) {
+      const { id } = args
+      return accounts.filter(account => account.id === id)[0]
     }
   }
 }
